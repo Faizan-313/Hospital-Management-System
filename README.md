@@ -58,6 +58,8 @@ The **Hospital Management System** is designed to streamline the operations of a
    - DB_PASSWORD
    - DB_NAME
    - DB_USER
+   - ADMIN_EMAIL
+   - ADMIN_PASSWORD
 
 6. **Start the application**:
 
@@ -76,8 +78,7 @@ The **Hospital Management System** is designed to streamline the operations of a
 7. **Access the application**:
 
    - Open your browser and navigate to `http://localhost:5173`
-   - At start push details of admin to database using mysql workbench or terminal as per user schema
-   - Login as admin then add doctors in doctors tab
+   - Login as admin then add Doctors in doctors tab
 
 
 ## Contributing
