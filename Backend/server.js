@@ -11,6 +11,7 @@ import appointmentRoute from './Routes/appointment.js'
 import doctorAppointmentRoute from './Routes/doctorAppointment.js'
 import medicalDataRoute from './Routes/medicalData.js'
 import addMedicalDataRoute from './Routes/addMedicalData.js'
+import adminDashboardRoute from './Routes/admin.js'
 
 const app = express();
 const port = 3000;
@@ -28,6 +29,9 @@ app.use(express.static(path.join(__dirname, 'Frontend')));
 app.use(express.static(path.join(__dirname, '/Frontend')));
 
 app.use("/api/auth", authRoutes);
+
+//admin dashboard
+app.use("/admin",adminDashboardRoute);
 
 app.use("/doctors",async (req,res)=>{
     const [doctors] = await db.execute("SELECT * FROM doctors");
