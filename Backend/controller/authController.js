@@ -79,6 +79,20 @@ export const registerDoctor = async (req,res)=>{
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
+    // For admin login
+    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+        const token = jwt.sign({ id: 0, role: "admin" }, process.env.JWT_SECRET, { expiresIn: "12h" });
+
+        res.cookie("token", token, { 
+            httpOnly: true, 
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax", 
+            maxAge: 60 * 60 * 1000 * 12, 
+        });
+
+        return res.status(200).json({ message: "Login successful", role: "admin", id: 0 });
+    }
+
     if (!email || !password) {
         return res.status(400).json({ message: "Email and password are required" });
     }
@@ -95,13 +109,13 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({ message: "Incorrect password" });
         }
 
-        const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "12h" });
 
         res.cookie("token", token, { 
             httpOnly: true, 
             secure: process.env.NODE_ENV === "production",
-            ameSite: "lax", // Ensures cookies are sent correctly
-            maxAge: 7 * 24 * 60 * 60 * 1000,
+            sameSite: "lax", 
+            maxAge: 60 * 60 * 1000 * 12, 
         });
 
         delete user.password;
@@ -112,5 +126,6 @@ export const loginUser = async (req, res) => {
         res.status(500).json({ message: "Error logging in" });
     }
 };
+
 
 
