@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import { Card, CardContent, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import toast from "react-hot-toast"
 import axios from 'axios';
 
@@ -80,7 +79,12 @@ function Dashboard() {
                                     <TableRow key={index}>
                                         <TableCell>{appointment.patient_name}</TableCell>
                                         <TableCell>{appointment.doctor_name}</TableCell>
-                                        <TableCell>{appointment.appointment_date}</TableCell>
+                                        <TableCell>{new Date(appointment.appointment_date).toLocaleDateString('en-US', {
+                                                    year: 'numeric',
+                                                    month: 'short',
+                                                    day: 'numeric'
+                                                })}
+                                        </TableCell>
                                         <TableCell>
                                             <Typography
                                                 variant="body2"

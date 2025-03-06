@@ -12,6 +12,9 @@ import doctorAppointmentRoute from './Routes/doctorAppointment.js'
 import medicalDataRoute from './Routes/medicalData.js'
 import addMedicalDataRoute from './Routes/addMedicalData.js'
 import adminDashboardRoute from './Routes/admin.js'
+import update from './utils/updateStatus.js';
+
+update.start;
 
 const app = express();
 const port = 3000;

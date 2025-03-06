@@ -77,7 +77,7 @@ function Dashboard() {
                                         <td className="px-6 py-4 whitespace-nowrap">{appointment.patientName}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{appointment.date}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className={`text-sm font-medium ${appointment.status === 'Completed'
+                                            <span className={`text-sm font-medium ${appointment.status === 'completed'
                                                     ? 'text-green-600'
                                                     : appointment.status === 'Pending'
                                                         ? 'text-yellow-600'
