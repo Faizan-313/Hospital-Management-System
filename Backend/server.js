@@ -13,6 +13,8 @@ import medicalDataRoute from './Routes/medicalData.js'
 import addMedicalDataRoute from './Routes/addMedicalData.js'
 import adminDashboardRoute from './Routes/admin.js'
 import update from './utils/updateStatus.js';
+import cookieParser from "cookie-parser";
+import statusRoter from './Routes/changeStatus.js'
 
 update.start;
 
@@ -23,6 +25,8 @@ app.use(cors({
     origin: "http://localhost:5173",  
     credentials: true 
 }));
+
+app.use(cookieParser());
 
 app.use(bodyParser.json());
 const __filename = fileURLToPath(import.meta.url);
@@ -52,6 +56,8 @@ app.use('/api',addMedicalDataRoute);
 
 app.use('/api/book-appointment',appointmentRoute);
 app.use('/api',doctorAppointmentRoute);
+
+app.use('/api',statusRoter)
 
 app.listen(port, ()=>{
     console.log(`server listening on port ${port}`);

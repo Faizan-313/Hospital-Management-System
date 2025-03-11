@@ -13,14 +13,12 @@ export const getUser = async (req, res) => {
         if (!token) {
             return res.status(401).json({ message: "Unauthorized" });
         }
-
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const [rows] = await db.execute("SELECT id, email, role FROM users WHERE id = ?", [decoded.id]);
 
         if (rows.length === 0) {
             return res.status(404).json({ message: "User not found" });
         }
-
         res.status(200).json({ user: rows[0] });
     } catch (error) {
         res.status(401).json({ message: "Invalid token" });
@@ -81,13 +79,13 @@ export const loginUser = async (req, res) => {
 
     // For admin login
     if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-        const token = jwt.sign({ id: 0, role: "admin" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: 0, role: "admin" }, process.env.JWT_SECRET, { expiresIn: "10h" });
 
         res.cookie("token", token, { 
             httpOnly: true, 
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax", 
-            maxAge: 60 * 60 * 1000, 
+            maxAge: 60 * 60 * 1000 * 10, 
         });
 
         return res.status(200).json({ message: "Login successful", role: "admin", id: 0 });
@@ -109,13 +107,13 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({ message: "Incorrect password" });
         }
 
-        const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "10h" });
 
         res.cookie("token", token, { 
             httpOnly: true, 
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax", 
-            maxAge: 60 * 60 * 1000, 
+            maxAge: 60 * 60 * 1000 * 10, 
         });
 
         delete user.password;

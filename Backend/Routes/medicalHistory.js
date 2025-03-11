@@ -12,6 +12,9 @@ router.post('/', async (req, res) => {
         }
 
         const [appointment] = await db.execute("SELECT * FROM appointments WHERE patient_id = ?", [patient_data[0].id]);
+        if(appointment.length === 0){
+            return res.status(201).json({message : "No medical record found"});
+        }
 
         const [diagnosesHistory] = await db.execute("SELECT * FROM diagnoses WHERE patient_id = ?", [patient_data[0].id]);
         const [treatmentHistory] = await db.execute("SELECT * FROM treatments WHERE patient_id = ?", [patient_data[0].id]);
@@ -28,12 +31,11 @@ router.post('/', async (req, res) => {
             address: patient_data[0].address,
             phone: patient_data[0].phone_number,
             doctor: doctor[0].full_name,
-            date: appointment[0]?.appointment_date || '---',
-            status: appointment[0]?.status || '---',
+            date: appointment[appointment.length -1]?.appointment_date || '---',
+            status: appointment[appointment.length -1]?.status || '---',
             diagnosis: diagnosesHistory || '---',
             treatment: treatmentHistory || '---',
             appointment_date : appointment[0]?.appointment_date || '---',
-            status : appointment[0]?.status || '---',
         };
         res.json(details);
     } catch (error) {

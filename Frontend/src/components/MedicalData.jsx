@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function MedicalData() {
     const [medicalData, setMedicalData] = useState([]);
     const [showAddDiagnosis, setAddDiagnosis] = useState(false);
     const [showAddTreatment, setAddTreatment] = useState(false);
+
+    const navigate = useNavigate();
 
     const { id } = useParams();
     useEffect(() => {
@@ -99,7 +102,19 @@ function MedicalData() {
             toast.error("Something went wrong");
         }
     }
+    async function handleCompleted(e){
+        e.preventDefault();
+        const response = await axios.post(
+            "http://localhost:3000/api/mark-completed",
+            { patient_id: id },
+            { headers: { "Content-Type": "application/json" } }
+        );
+        if (response.status === 200) {
+            toast.success(response.data.message);
+            navigate('/doctordashboard');
 
+        }
+    }
 
 
     function toggleDiagnosis() {
@@ -111,6 +126,12 @@ function MedicalData() {
 
     return (
         <div className='min-h-screen w-full bg-gray-50 p-8'>
+                <button 
+                    onClick={handleCompleted}
+                    className='fixed z-10 right-6 top-30 bg-green-600 hover:bg-green-800 border-1 rounded-md text-white p-2 cursor-pointer'
+                >
+                    Completed
+                </button>
             <div className='max-w-4xl mx-auto space-y-6'>
                 {/* Patient Header */}
                 <div className='text-center mb-8'>

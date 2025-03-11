@@ -29,7 +29,7 @@ function Dashboard() {
         fetchAppointments();
     }, [user.id]);
 
-    const totalAppointments = appointments.length;
+    const totalAppointments = (appointments.filter(a => a.status === 'scheduled')).length;
     // Calculate unique patients based on the patientName field
     // in future only show appointments as per date (for today only)
     const uniquePatients = new Set(appointments.map(a => a.patientName)).size;

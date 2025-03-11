@@ -10,7 +10,7 @@ router.post('/',  async (req, res)=>{
     const patient_id = user_data[0].id;
 
     //check for already appointment taken
-    const [present] =  await db.execute("select * from appointments where patient_id = ?", [patient_id]);
+    const [present] =  await db.execute("select * from appointments where patient_id = ? AND status = 'scheduled'", [patient_id]);
     if (present.length > 0) {
         return res.status(202).json({ message: "already added" });
     }

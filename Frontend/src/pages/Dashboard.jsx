@@ -61,7 +61,7 @@ function Dashboard() {
             </Box>
 
             {/* Recent Appointments Table */}
-            <Card>
+            <Card className='h-[100vh]'>
                 <CardContent>
                     <Typography variant="h6" gutterBottom>Appointments</Typography>
                     <TableContainer component={Paper}>

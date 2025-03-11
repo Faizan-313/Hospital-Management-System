@@ -20,10 +20,7 @@ export const AuthProvider = ({ children }) => {
                 localStorage.removeItem("user"); 
             }
         };
-
-        if (!user) {
-            fetchUser();
-        }
+        fetchUser();
     }, []);
 
     return (
