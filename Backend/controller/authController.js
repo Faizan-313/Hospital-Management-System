@@ -14,6 +14,14 @@ export const getUser = async (req, res) => {
             return res.status(401).json({ message: "Unauthorized" });
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if(decoded.role === 'admin'){
+            const user_details = {
+                id: 0,
+                email: process.env.ADMIN_EMAIL,
+                role: 'admin'
+            }
+            return res.status(200).json({user: user_details});
+        }
         const [rows] = await db.execute("SELECT id, email, role FROM users WHERE id = ?", [decoded.id]);
 
         if (rows.length === 0) {

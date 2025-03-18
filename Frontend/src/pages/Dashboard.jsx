@@ -25,6 +25,8 @@ function Dashboard() {
         fecthPatientList();
     }, []);
 
+    const pendingAppointments = stats.filter((patient)=> patient.status != "completed");
+
     return (
         <Box sx={{ width: '100%' }}>
             {/* Stats Cards */}
@@ -53,7 +55,7 @@ function Dashboard() {
                             <CalendarTodayIcon fontSize="large" color="secondary" />
                             <div>
                                 <Typography variant="h6">Appointments</Typography>
-                                <Typography variant="h4">{stats.length}</Typography>
+                                <Typography variant="h4">{pendingAppointments.length}</Typography>
                             </div>
                         </Stack>
                     </CardContent>

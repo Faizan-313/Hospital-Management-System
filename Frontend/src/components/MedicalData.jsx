@@ -35,23 +35,23 @@ function MedicalData() {
         e.preventDefault();
         const formData = new FormData(e.target);
         const details = {
-            newDiagnosis : formData.get('diagnosisDetails'),
+            newDiagnosis: formData.get('diagnosisDetails'),
             date: new Date().toISOString().split('T')[0]
         }
         try {
             const response1 = await axios.post(
                 "http://localhost:3000/api/add-diagnosis",
-                { 
+                {
                     patient_id: id,
                     diagnosis_text: details.newDiagnosis,
                     date: details.date
                 },
                 { headers: { "Content-Type": "application/json" } }
             );
-            if(response1.status === 200){
+            if (response1.status === 200) {
                 toast.success("Diagnosis added successfully");
                 toggleDiagnosis(false);
-    
+
                 const response = await axios.post(
                     "http://localhost:3000/api/medicalData",
                     { patient_id: id },
@@ -71,23 +71,23 @@ function MedicalData() {
         e.preventDefault();
         const formData = new FormData(e.target);
         const details = {
-            newTreatment : formData.get('treatmentDetails'),
+            newTreatment: formData.get('treatmentDetails'),
             date: new Date().toISOString().split('T')[0]
         }
         try {
             const response1 = await axios.post(
                 "http://localhost:3000/api/add-treatment",
-                { 
+                {
                     patient_id: id,
                     treatment_text: details.newTreatment,
                     date: details.date
                 },
                 { headers: { "Content-Type": "application/json" } }
             );
-            if(response1.status === 200){
+            if (response1.status === 200) {
                 toast.success("Treatment added successfully");
                 toggleTreatment(false);
-    
+
                 const response = await axios.post(
                     "http://localhost:3000/api/medicalData",
                     { patient_id: id },
@@ -102,7 +102,9 @@ function MedicalData() {
             toast.error("Something went wrong");
         }
     }
-    async function handleCompleted(e){
+
+
+    async function handleCompleted(e) {
         e.preventDefault();
         const response = await axios.post(
             "http://localhost:3000/api/mark-completed",
@@ -112,7 +114,6 @@ function MedicalData() {
         if (response.status === 200) {
             toast.success(response.data.message);
             navigate('/doctordashboard');
-
         }
     }
 
@@ -126,12 +127,17 @@ function MedicalData() {
 
     return (
         <div className='min-h-screen w-full bg-gray-50 p-8'>
-                <button 
-                    onClick={handleCompleted}
-                    className='fixed z-10 right-6 top-30 bg-green-600 hover:bg-green-800 border-1 rounded-md text-white p-2 cursor-pointer'
-                >
-                    Completed
-                </button>
+            <button
+                disabled={medicalData.status === 'completed'}
+                onClick={handleCompleted}
+                className={`fixed z-10 right-6 top-8 border rounded-md text-white p-2 
+                    ${medicalData.status === 'completed'
+                        ? 'bg-gray-400 cursor-not-allowed fixed z-10 right-6 top-30'
+                        : 'fixed z-10 right-6 top-30 bg-green-600 hover:bg-green-800 border-1 rounded-md text-white p-2 cursor-pointer'
+                    }`}
+            >
+                Completed
+            </button>
             <div className='max-w-4xl mx-auto space-y-6'>
                 {/* Patient Header */}
                 <div className='text-center mb-8'>
@@ -177,7 +183,7 @@ function MedicalData() {
                                 </div>
                             ))}
                         </div>
-                        {showAddDiagnosis ? 
+                        {showAddDiagnosis ?
                             <form onSubmit={handleDiagnosis} className="mt-4 space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
@@ -206,13 +212,19 @@ function MedicalData() {
                                         Cancel
                                     </button>
                                 </div>
-                            </form> 
-                        : 
+                            </form>
+                            :
                             <button
+                                disabled={medicalData.status === 'completed'}
                                 onClick={toggleDiagnosis}
-                                className='mt-4 bg-blue-600 text-white px-4 py-2 cursor-pointer rounded-md hover:bg-blue-700 transition-colors'>
+                                className={`mt-4 px-4 py-2 rounded-md transition-colors
+                                ${medicalData.status === 'completed'
+                                        ? 'bg-gray-400 cursor-not-allowed' 
+                                        : 'bg-blue-600 hover:bg-blue-700 cursor-pointer text-white'  
+                                    }`}
+                            >
                                 + Add New Diagnosis
-                        </button>}
+                            </button>}
                     </div>
 
                     {/* Treatment History */}
@@ -238,7 +250,7 @@ function MedicalData() {
                                 </div>
                             ))}
                         </div>
-                        {showAddTreatment ? 
+                        {showAddTreatment ?
                             <form onSubmit={handleTreatment} className="mt-4 space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
@@ -267,13 +279,19 @@ function MedicalData() {
                                         Cancel
                                     </button>
                                 </div>
-                            </form> 
-                        : 
+                            </form>
+                            :
                             <button
                                 onClick={toggleTreatment}
-                                className='mt-4 bg-blue-600 text-white px-4 py-2 cursor-pointer rounded-md hover:bg-blue-700 transition-colors'>
+                                disabled={medicalData.status === 'completed'}
+                                className={`mt-4 px-4 py-2 rounded-md transition-colors
+                                    ${medicalData.status === 'completed'
+                                            ? 'bg-gray-400 cursor-not-allowed' 
+                                            : 'bg-blue-600 hover:bg-blue-700 cursor-pointer text-white'  
+                                        }`}
+                            >
                                 + Add New Treament
-                        </button>}
+                            </button>}
                     </div>
                 </div>
             </div>
