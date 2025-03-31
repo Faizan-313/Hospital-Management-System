@@ -31,7 +31,7 @@ const router = createBrowserRouter([
     ) 
   },
   {
-    path: '/medical-data/:id',
+    path: '/medical-data/:id/:status',
     element: (
       <ProtectedRoute role="doctor">
         <Layout><MedicalData /></Layout>

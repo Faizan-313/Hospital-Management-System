@@ -11,7 +11,7 @@ function MedicalData() {
 
     const navigate = useNavigate();
 
-    const { id } = useParams();
+    const { id,status } = useParams();
     useEffect(() => {
         async function fetchMedicalData() {
             try {
@@ -124,14 +124,13 @@ function MedicalData() {
     function toggleTreatment() {
         setAddTreatment(prev => !prev);
     }
-
     return (
         <div className='min-h-screen w-full bg-gray-50 p-8'>
             <button
-                disabled={medicalData.status === 'completed'}
+                disabled={status === 'completed'}
                 onClick={handleCompleted}
                 className={`fixed z-10 right-6 top-8 border rounded-md text-white p-2 
-                    ${medicalData.status === 'completed'
+                    ${status === 'completed'
                         ? 'bg-gray-400 cursor-not-allowed fixed z-10 right-6 top-30'
                         : 'fixed z-10 right-6 top-30 bg-green-600 hover:bg-green-800 border-1 rounded-md text-white p-2 cursor-pointer'
                     }`}
@@ -215,10 +214,10 @@ function MedicalData() {
                             </form>
                             :
                             <button
-                                disabled={medicalData.status === 'completed'}
+                                disabled={status === 'completed'}
                                 onClick={toggleDiagnosis}
                                 className={`mt-4 px-4 py-2 rounded-md transition-colors
-                                ${medicalData.status === 'completed'
+                                ${status === 'completed'
                                         ? 'bg-gray-400 cursor-not-allowed' 
                                         : 'bg-blue-600 hover:bg-blue-700 cursor-pointer text-white'  
                                     }`}
@@ -228,7 +227,7 @@ function MedicalData() {
                     </div>
 
                     {/* Treatment History */}
-                    <div className='bg-white min-w-[30rem] p-5 rounded-lg shadow-md'>
+                    <div className='bg-white min-w-[30rem] p-6 rounded-lg shadow-md mb-8'>
                         <h3 className='text-xl font-semibold text-gray-800 mb-6 border-b-2 border-green-200 pb-2'>
                             Treatment History
                         </h3>
@@ -283,9 +282,9 @@ function MedicalData() {
                             :
                             <button
                                 onClick={toggleTreatment}
-                                disabled={medicalData.status === 'completed'}
+                                disabled={status === 'completed'}
                                 className={`mt-4 px-4 py-2 rounded-md transition-colors
-                                    ${medicalData.status === 'completed'
+                                    ${status === 'completed'
                                             ? 'bg-gray-400 cursor-not-allowed' 
                                             : 'bg-blue-600 hover:bg-blue-700 cursor-pointer text-white'  
                                         }`}

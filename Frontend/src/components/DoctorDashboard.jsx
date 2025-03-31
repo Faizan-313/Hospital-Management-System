@@ -34,8 +34,8 @@ function Dashboard() {
     // in future only show appointments as per date (for today only)
     const uniquePatients = new Set(appointments.map(a => a.patientName)).size;
 
-    function handlePatient(patient_id){      
-        navigate(`/medical-data/${patient_id}`);
+    function handlePatient(patient_id,status){      
+        navigate(`/medical-data/${patient_id}/${status}`);
     }
     return (
         <div className="w-full h-screen p-4 bg-gray-100">
@@ -73,7 +73,7 @@ function Dashboard() {
                         <tbody className="bg-white divide-y divide-gray-200">
                             {appointments.length > 0 ? (
                                 appointments.map((appointment) => (
-                                    <tr key={appointment.id} onClick={() => handlePatient(appointment.patient_id)} className='cursor-pointer hover:bg-gray-200 transition duration-300'>
+                                    <tr key={appointment.id} onClick={() => handlePatient(appointment.patient_id,appointment.status)} className='cursor-pointer hover:bg-gray-200 transition duration-300'>
                                         <td className="px-6 py-4 whitespace-nowrap">{appointment.patientName}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{appointment.date}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
